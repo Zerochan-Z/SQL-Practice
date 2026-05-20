@@ -11,8 +11,10 @@ Quick lookup table for the SQL commands you used.
 
 | Command | What it does |
 |---------|--------------|
-| `DROP TABLE IF EXISTS name` | Delete the whole table if it exists (no error if missing) |
-| `CREATE TABLE (name) ({column}) - (Data type))` | Create a new empty table |
+| `DROP TABLE IF EXISTS (name)` | Delete the whole table if it exists (no error if missing) |
+| `CREATE TABLE (name) (\n  {column}  (Data type) \n)` | Create a new empty table |
+| `Continue with comma (,) except the last` | Continue code writing |
+| `After ) write ;` | End code writing |
 
 ### Data Types
 
@@ -29,7 +31,8 @@ Quick lookup table for the SQL commands you used.
 
 | Command | What it does |
 |---------|--------------|
-| `INSERT INTO {name} {columns} VALUES \n ({datas})` | Add new rows of data |
+| `INSERT INTO (name) ({columns,}) VALUES \n ({datas})` | Add rows of data |
+| `For text need to put '__'` | Turns text into str |
 
 ---
 
@@ -37,9 +40,9 @@ Quick lookup table for the SQL commands you used.
 
 | Clause / Function | Purpose |
 |-------------------|---------|
-| `SELECT {name}` | Choose which columns to show |
-| `AS {new_name}` | Rename a column in the output |
-| `FROM {name}` | Which table to read |
+| `SELECT {column}` | Choose which columns to show (variables) |
+| `AS {new_column_name}` | Rename a column in the output (result) |
+| `FROM (name)` | Which table to read |
 | `WHERE {}` | Filter rows before grouping |
 | `GROUP BY {}` | Combine rows into groups (one per unique value) |
 | `ORDER BY {},` | Sort the final result (`ASC` = ascending, `DESC` = descending) |
@@ -48,9 +51,9 @@ Quick lookup table for the SQL commands you used.
 
 | Function | What it calculates |
 |----------|--------------------|
-| `AVG(column)` | Average of the column values |
-| `SUM(column)` | Sum of the column values |
-| `COUNT(column)` | Number of non‑null rows |
+| `AVG{column}` | Average of the column values |
+| `SUM{column}` | Sum of the column values |
+| `COUNT{column}` | Number of non‑null rows |
 
 ---
 
