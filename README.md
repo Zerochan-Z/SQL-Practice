@@ -35,52 +35,61 @@ Quick lookup table for the SQL commands you used.
 | `For text need to put '__'` | Turns text into str |
 
 ---
+## 📁 SQL Notes – Quick Reference
 
-## 🔍 Querying (SELECT)
-
-| Clause / Function | Purpose |
-|-------------------|---------|
-| `SELECT {column}` | Choose which columns to show (variables) |
-| `AS {new_column_name}` | Rename a column in the output (result) |
-| `FROM (name)` | Which table to read |
-| `WHERE {}` | Filter rows before grouping |
-| `GROUP BY {}` | Combine rows into groups (one per unique value) |
-| `ORDER BY {},` | Sort the final result (`ASC` = ascending, `DESC` = descending) |
-
-### Aggregate Functions (used with `GROUP BY`)
-
-| Function | What it calculates |
-|----------|--------------------|
-| `AVG{column}` | Average of the column values |
-| `SUM{column}` | Sum of the column values |
-| `COUNT{column}` | Number of non‑null rows |
+| Clause / Concept | What It Does |
+|-----------------|---------------|
+| **SELECT all columns** | `*` means every column |
+| **SELECT specific columns** | Choose which columns to show |
+| **WHERE (filter rows)** | Filters rows before grouping (like an if‑clause) |
+| **AND (multiple conditions)** | Adds another condition to `WHERE` |
+| **AS (alias)** | Renames a column (applies only to the column immediately before it) |
+| **LOWER()** | Converts text to lowercase |
+| **GROUP BY** | Groups rows into categories; one row per unique combination |
+| **SUM()** | Adds up all values in a group |
+| **COUNT()** | Counts number of rows in a group |
+| **AVG()** | Calculates average of values in a group |
+| **HAVING** | Filters **groups** after `GROUP BY` (unlike `WHERE` which filters rows) |
+| **ORDER BY** | Sorts results (DESC = highest first, ASC = lowest first) |
+| **LIMIT** | Shows only first N rows (always at the end) |
 
 ---
 
-## 📋 SQL Execution Order (Conceptual)
+## 📋 Formula Templates
 
-| Step | Operation |
-|:----:|-----------|
-| 1 | `FROM` → which table |
-| 2 | `WHERE` → filter rows |
-| 3 | `GROUP BY` → create groups |
-| 4 | `SELECT` → pick columns + aggregates |
-| 5 | `ORDER BY` → sort results |
+| Task | Template |
+|------|----------|
+| Basic select | `SELECT {columns} FROM {table};` |
+| Select with condition | `SELECT {columns} FROM {table} WHERE {column} = '{value}';` |
+| Select with multiple conditions | `SELECT {columns} FROM {table} WHERE {condition1} AND {condition2};` |
+| Group by with aggregate | `SELECT {group_column}, SUM({agg_column}) AS {alias} FROM {table} GROUP BY {group_column};` |
+| Case‑insensitive grouping | `SELECT LOWER({column}) AS {alias}, AVG({agg_column}) FROM {table} GROUP BY LOWER({column});` |
+| Filter after grouping | `SELECT {group_column}, COUNT(*) FROM {table} GROUP BY {group_column} HAVING COUNT(*) > {number};` |
+| Top N results | `SELECT {columns} FROM {table} ORDER BY {column} DESC LIMIT {N};` |
 
 ---
 
-## ✅ Quick Command Cheat Sheet
+## 🔄 Execution Order (How SQL Reads Your Query)
 
-| Action | SQL Keyword |
-|--------|-------------|
-| Delete a table | `DROP TABLE IF EXISTS` |
-| Create a table | `CREATE TABLE` |
-| Add rows | `INSERT INTO` |
-| Show data | `SELECT` |
-| Filter rows | `WHERE` |
-| Group rows | `GROUP BY` |
-| Sort results | `ORDER BY` |
-| Rename output column | `AS` |
-| Calculate average | `AVG()` |
+| Step | Clause | What happens |
+|:----:|--------|--------------|
+| 1 | `FROM` | Choose the table |
+| 2 | `WHERE` | Filter rows (before grouping) |
+| 3 | `GROUP BY` | Group rows into categories |
+| 4 | `HAVING` | Filter groups (after grouping) |
+| 5 | `SELECT` | Pick columns to show + calculate aggregates |
+| 6 | `ORDER BY` | Sort the result |
+| 7 | `LIMIT` | Cut off after N rows |
+
+---
+
+## ⚠️ Common Mistakes
+
+| Mistake | Why It's Wrong |
+|---------|----------------|
+| `WHERE COUNT(*) > 1` | `WHERE` cannot use aggregates (use `HAVING` instead) |
+| `SELECT ticker, price FROM trades GROUP BY ticker` | `price` is not in `GROUP BY` and not aggregated |
+| `HAVING price > 200` | `HAVING` without aggregate works, but `WHERE` is better for row filters |
+| Missing `AS` for alias | Works, but output column name will be `SUM(quantity)`
 | Calculate sum | `SUM()` |
 | Count rows | `COUNT()` |
